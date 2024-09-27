@@ -119,13 +119,11 @@ class Logger {
                 s_time_format: 'de-DE',
                 s_time_zone: 'Europe/Berlin',//{borderColor: 'red', borderStyle: 'double', padding: 1, marginLeft: 1, marginTop: 1, marginBottom: 1}
                 box_settings: {
-                    border_color: 'red',
+                    border_color: 'white',
                     border_style: 'double',
-                    valign: 'center',
-                    padding: 1,
+                    padding: 2,
                     marginLeft: 1,
-                    marginTop: 1,
-                    marginBottom: 1,
+                    b_display_time: true,
                 },
                 loading_animation: presets.loading_animation_presets.braille_dots,
                 progress_bar: presets.progress_bar_presets.dashed,
@@ -219,6 +217,11 @@ class Logger {
         const log_icon = (this.settings.b_display_icons ? "❌" : "");
         const log_tag = (this.settings.b_display_tags ? code_error_tag : foreground_colors.red);
 
+        if(!error_custom.message && !error_custom.function_name && !error_custom.location){
+            console.log("\nFAILED TO READ ERROR AT CALLING 'error()'\nCall this Function using the create_error function to create an error!\n");
+            return;
+        }
+
         const log_message = log_icon + this.#empty_char(1) + log_tag + error_custom.message + foreground_colors.white + this.settings.divider +
          foreground_colors.red + error_custom.function_name + "()-> (" + error_custom.location + ")";
 
@@ -257,10 +260,13 @@ class Logger {
         const text_lines = text.split("\n");
         const box_lines = [];
 
+        opts.style.marginBottom = 2;
+        opts.style.marginTop = 2;
+    
         const _color = getColor(opts.style.border_color);
         var border_style = typeof opts.style.border_style === "string"
-        ? presets.box_style_presets[opts.style.border_style] || presets.box_style_presets.solid
-        : opts.style.border_style;
+            ? presets.box_style_presets[opts.style.border_style] || presets.box_style_presets.solid
+            : opts.style.border_style;
     
         if (_color) {
             for (const key in border_style) {
@@ -269,12 +275,11 @@ class Logger {
                 }
             }
         }
-
+    
         const max_line_length = Math.max(...text_lines.map(line => line.length));
         const padding_offset = opts.style.padding % 2 === 0 ? opts.style.padding : opts.style.padding + 1;
         const height = text_lines.length + padding_offset;
-        // const height = text_lines.length + 1;
-        const width = Math.max(...text_lines.map(line => line.length)) + padding_offset;
+        const width = max_line_length + padding_offset;
         const width_offset = width + padding_offset;
     
         const left_space = this.#empty_char(1).repeat(opts.style.marginLeft);
@@ -283,11 +288,10 @@ class Logger {
     
         var date_str = "";
         var date_width = 0;
-        if(this.settings.b_display_time && max_line_length >= 17){
+        if (opts.style.b_display_time && max_line_length >= 21) {
             date_str = new Date().toLocaleString(this.settings.s_time_format, { timeZone: this.settings.s_time_zone });
             date_width = date_str.length + 2;
-        }
-        else {
+        } else {
             date_str = "";
             date_width = 0;
         }
@@ -296,31 +300,30 @@ class Logger {
         const left_padding = Math.floor((total_width - date_width) / 2);
         const left_border = border_style.h.repeat(left_padding);
         const right_border = border_style.h.repeat(total_width - left_padding - date_width);
-        
-        box_lines.push(`${left_space}${border_style.tl}${left_border}${max_line_length >= 17 ? "["+date_str+"]": ""}${right_border}${border_style.tr}`);
     
-        const valign_offset = opts.style.valign === "center"
-            ? Math.floor((height - text_lines.length) / 2)
-            : opts.style.valign === "top"
-                ? height - text_lines.length - padding_offset
-                : height - text_lines.length;
+        box_lines.push(`${left_space}${border_style.tl}${left_border}${opts.style.b_display_time ? max_line_length >= 21 ? "[" + date_str + "]" : "" : ""}${right_border}${border_style.tr}`);
     
-        for (let i = 0; i < height; i++) {
-            if (i < valign_offset || i >= valign_offset + text_lines.length) {
-                box_lines.push(`${left_space}${border_style.v}${this.#empty_char(1).repeat(width_offset)}${border_style.v}`);
-            } else {
-                const line = text_lines[i - valign_offset];
-                const left = this.#empty_char(1).repeat(padding_offset);
-                const right = this.#empty_char(1).repeat(width - stripAnsi(line).length);
-                box_lines.push(`${left_space}${border_style.v}${left}${line}${right}${border_style.v}`);
-            }
+        for (let i = 0; i < Math.floor(padding_offset / 2); i++) {
+            box_lines.push(`${left_space}${border_style.v}${this.#empty_char(1).repeat(width_offset)}${border_style.v}`);
+        }
+    
+        for (let i = 0; i < text_lines.length; i++) {
+            const line = text_lines[i];
+            const left = this.#empty_char(1).repeat(padding_offset);
+            const right = this.#empty_char(1).repeat(width - stripAnsi(line).length);
+            box_lines.push(`${left_space}${border_style.v}${left}${line}${right}${border_style.v}`);
+        }
+    
+        for (let i = 0; i < Math.ceil(padding_offset / 2); i++) {
+            box_lines.push(`${left_space}${border_style.v}${this.#empty_char(1).repeat(width_offset)}${border_style.v}`);
         }
     
         box_lines.push(`${left_space}${border_style.bl}${border_style.h.repeat(width_offset)}${border_style.br}`);
         if (opts.style.marginBottom > 0) box_lines.push("".repeat(opts.style.marginBottom));
     
         console.log(box_lines.join("\n"));
-    }      
+    }     
+    
 
     success(...args) {
         const success_tag =  background_colors.green + foreground_colors.white +  "SUCCESS" +  text_formatting.reset + this.settings.divider + foreground_colors.green;
@@ -340,7 +343,7 @@ class Logger {
         console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
     }
 
-    async get_int_input(question) {
+    async get_int_input(question, min = "emtpy", max = "emtpy") {
         const question_tag = background_colors.magenta + foreground_colors.white + "QUESTION" +  text_formatting.reset + this.settings.divider + foreground_colors.magenta;
         const question_icon = (this.settings.b_display_icons ? "❓" : "");
         return new Promise((resolve) => {
@@ -372,11 +375,20 @@ class Logger {
                 resolve(0);
             });
 
+
+            
             const ask = () => {
                 rl.question('> ', (input) => {
+                    const min_number = min !== "empty" ? parseInt(min, 10) : "empty";
+                    const max_number = max !== "empty" ? parseInt(max, 10) : "empty";
                     input = input.trim();
-                    if (/^\d+$/.test(input)) {
-                        // process.stdout.write(`\r${foreground_colors.green}✔${text_formatting.reset}\n`);
+                    const input_number = parseInt(input, 10);
+                    if ((min_number === "empty" || input_number >= min_number) && (max_number === "empty" || input_number <= max_number)) {
+                        console.log("input:", inputNumber);
+                        console.log("min:", minNumber);
+                        console.log("max:", maxNumber);
+                    }            
+                    if (/^-?\d+$/.test(input) && ((min_number === "empty" || input_number >= min_number) && (max_number === "empty" || input_number <= max_number))) {
                         rl.close();
                         resolve(parseInt(input, 10));
                     } else {
