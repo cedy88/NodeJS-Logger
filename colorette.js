@@ -1,8 +1,4 @@
-/**
- * Based on https://github.com/jorgebucaran/colorette
- * Read LICENSE file for more information
- * https://github.com/jorgebucaran/colorette/blob/20fc196d07d0f87c61e0256eadd7831c79b24108/index.js
- */
+//Credits: https://github.com/jorgebucaran/colorette/blob/20fc196d07d0f87c61e0256eadd7831c79b24108/index.js
 
 const tty = require("tty");
 

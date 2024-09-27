@@ -1,3 +1,4 @@
+//Credits: https://github.com/easylogic/react-summernote/blob/de5ac437884fb10e9ecd03e79f0dd67fe5b36b9c/.pnpm-store/v3/files/d6/2569def6a901a92c8e068c1757db751133de0293527409cab15c3f1fcf1cf21f99635800a13b0ef6f00a905d0609612d122c91d54f2c4162bf54ae703c998a
 const ansiRegex = [
     String.raw`[\u001B\u009B][[\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\d\/#&.:=?%@~_]+)*|[a-zA-Z\d]+(?:;[-a-zA-Z\d\/#&.:=?%@~_]*)*)?\u0007)`,
     String.raw`(?:(?:\d{1,4}(?:;\d{0,4})*)?[\dA-PR-TZcf-nq-uy=><~]))`,

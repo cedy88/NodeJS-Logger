@@ -1,5 +1,5 @@
 const { stripAnsi } = require('./string.js');
-const {getColor} = require('./colors_t.js');
+const {getColor} = require('./colorette.js');
 const readline = require('readline');
 const keypress = require('keypress');
 const { background_colors, foreground_colors, text_formatting } = require('./colors_defs.js');
@@ -89,7 +89,6 @@ const presets = {
         },
     },
 };
-
 
 function create_error(message) {
     const error = new Error(message);
@@ -253,7 +252,7 @@ class Logger {
         console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
     }
 
-    box(text, overwrite_settings = this.settings.box_settings) {
+    box(text, overwrite_settings = this.settings.box_settings) {//Box is not displaying time when text length is greater than 21
         const opts = { style: { ...overwrite_settings } };
         const text_lines = text.split("\n");
         const box_lines = [];
@@ -270,7 +269,8 @@ class Logger {
                 }
             }
         }
-    
+
+        const max_line_length = Math.max(...text_lines.map(line => line.length));
         const padding_offset = opts.style.padding % 2 === 0 ? opts.style.padding : opts.style.padding + 1;
         const height = text_lines.length + padding_offset;
         // const height = text_lines.length + 1;
@@ -282,21 +282,22 @@ class Logger {
         if (opts.style.marginTop > 0) box_lines.push("".repeat(opts.style.marginTop));
     
         var date_str = "";
-        if(this.settings.b_display_time){
+        var date_width = 0;
+        if(this.settings.b_display_time && max_line_length >= 17){
             date_str = new Date().toLocaleString(this.settings.s_time_format, { timeZone: this.settings.s_time_zone });
+            date_width = date_str.length + 2;
         }
         else {
             date_str = "";
+            date_width = 0;
         }
-        const date_width = date_str.length + 2;
     
-        // Adjust the total width calculation to ensure the date is centered correctly
         const total_width = Math.max(width_offset, date_width);
         const left_padding = Math.floor((total_width - date_width) / 2);
         const left_border = border_style.h.repeat(left_padding);
         const right_border = border_style.h.repeat(total_width - left_padding - date_width);
         
-        box_lines.push(`${left_space}${border_style.tl}${left_border}[${date_str}]${right_border}${border_style.tr}`);
+        box_lines.push(`${left_space}${border_style.tl}${left_border}${max_line_length >= 17 ? "["+date_str+"]": ""}${right_border}${border_style.tr}`);
     
         const valign_offset = opts.style.valign === "center"
             ? Math.floor((height - text_lines.length) / 2)
@@ -685,74 +686,78 @@ class Logger {
     }
 }
 
-const logger_settings = {// 
-    b_display_time: true,
-    s_display_mode: 'icon_and_tag', // icon_only, tag_only, icon_and_tag
-    s_time_format: 'de-DE',
-    s_time_zone: 'Europe/Berlin',
-    box_settings: {
-        border_color: 'white',
-        border_style: 'double',
-        padding: 2,
-        marginLeft: 1,
-        marginTop: 2,
-        marginBottom: 2,
-    },
-    loading_animation: presets.loading_animation_presets.braille_dots,
-    progress_bar: presets.progress_bar_presets.dashed,
-    divider: presets.dividers.dot,
+// const logger_settings = {// 
+//     b_display_time: true,
+//     s_display_mode: 'icon_and_tag', // icon_only, tag_only, icon_and_tag
+//     s_time_format: 'de-DE',
+//     s_time_zone: 'Europe/Berlin',
+//     box_settings: {
+//         border_color: 'white',
+//         border_style: 'double',
+//         padding: 2,
+//         marginLeft: 1,
+//         marginTop: 2,
+//         marginBottom: 2,
+//     },
+//     loading_animation: presets.loading_animation_presets.braille_dots,
+//     progress_bar: presets.progress_bar_presets.dashed,
+//     divider: presets.dividers.dot,
+// };
+
+// function task_todo(step) {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve();//call resolve to indicate that the task is done
+//         }, 10);
+//     });
+// }
+
+// async function main(){
+//     const logger = new Logger(logger_settings);
+
+//     logger.box('Watupp\nThis is a box message ma nigga');
+
+
+//     logger.box('Watupp\nThis is a box message ma nigga', { border_color: 'green', border_style: 'doubleSingleRounded', padding: 1, marginLeft: 1, marginTop: 2, marginBottom: 1});
+    
+//     await logger.get_int_input("How many kids do you have?");
+
+//     await logger.get_string_input("Whats your name?");
+
+//     logger.log("This is a log message ma nigga");
+//     logger.warn("This is a warning ma nigga");
+//     logger.success("This was a success ma nigga");
+//     logger.info("This is an info ma nigga");
+//     logger.errorEx("This is an error ma nigga");
+//     logger.error(create_error("Failed to connect nigga"));
+    
+//     logger.user_activity("Create User", "Alibaba1337", "nigga", false);
+//     logger.user_activity("Delete User", "AdminSenpai69", "nigga_yjk", true);
+
+
+//     logger.user_activityEx("Create Auction", "AdminSenpai69","request", true, `AuctionID: ${foreground_colors.yellow + "78346875463785634"}`);
+
+//     logger.space();
+
+//     await logger.bool_question("are you sure?");
+
+//     logger.space();
+
+//     await logger.progress_bar(task_todo, "Updating Network adapters..");
+//     await logger.loading_circle("Updating Profile..", 5000);
+
+
+
+//     // logger.space();
+//     // logger.bool_question("are you ma nigga?");
+//     // logWithTime("Testing");
+//     // logWithTime("this is a Testing Phase");#
+//     // logWithTime("I love testing shit, lets see if the date is acutally here ->");
+// }
+// main();
+
+module.exports = {
+    Logger,
+    presets,
+    create_error,   
 };
-
-function task_todo(step) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve();//call resolve to indicate that the task is done
-        }, 10);
-    });
-}
-
-async function main(){
-    const logger = new Logger(logger_settings);
-
-    logger.box('Watupp\nThis is a box message ma nigga');
-
-
-    logger.box('Watupp\nThis is a box message ma nigga', { border_color: 'green', border_style: 'doubleSingleRounded', padding: 1, marginLeft: 1, marginTop: 2, marginBottom: 1});
-    
-    await logger.get_int_input("How many kids do you have?");
-
-    await logger.get_string_input("Whats your name?");
-
-    logger.log("This is a log message ma nigga");
-    logger.warn("This is a warning ma nigga");
-    logger.success("This was a success ma nigga");
-    logger.info("This is an info ma nigga");
-    logger.errorEx("This is an error ma nigga");
-    logger.error(create_error("Failed to connect nigga"));
-    
-    logger.user_activity("Create User", "Alibaba1337", "nigga", false);
-    logger.user_activity("Delete User", "AdminSenpai69", "nigga_yjk", true);
-
-
-    logger.user_activityEx("Create Auction", "AdminSenpai69","request", true, `AuctionID: ${foreground_colors.yellow + "78346875463785634"}`);
-
-    logger.space();
-
-    await logger.bool_question("are you sure?");
-
-    logger.space();
-
-    await logger.progress_bar(task_todo, "Updating Network adapters..");
-    await logger.loading_circle("Updating Profile..", 5000);
-
-
-
-    // logger.space();
-    // logger.bool_question("are you ma nigga?");
-    // logWithTime("Testing");
-    // logWithTime("this is a Testing Phase");#
-    // logWithTime("I love testing shit, lets see if the date is acutally here ->");
-}
-main();
-
-module.exports = Logger;
