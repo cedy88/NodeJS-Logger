@@ -1,0 +1,15 @@
+{
+  "name": "nodejs-logging-libary",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cedy",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "keypress": "^0.2.1",
+    "tty": "^1.0.1"
+  }
+}
