@@ -1,6 +1,6 @@
 ~~__NodeJS-Logger__~~
 
-Welcome to this Project, its a small project ive made for my own projects/backends in NodeJS
+Welcome to this Project, its a small project ive made for my own projects in NodeJS
 
 
 
