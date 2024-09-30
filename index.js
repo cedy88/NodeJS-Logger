@@ -2,7 +2,66 @@ const { stripAnsi } = require('./string.js');
 const {getColor} = require('./colorette.js');
 const readline = require('readline');
 const keypress = require('keypress');
-const { background_colors, foreground_colors, text_formatting } = require('./colors_defs.js');
+
+const colors = {
+    text_formatting: {
+        reset: "\x1b[0m",
+        bright: "\x1b[1m",
+        dim: "\x1b[2m",
+        underscore: "\x1b[4m",
+        blink: "\x1b[5m",
+        reverse: "\x1b[7m",
+        hidden: "\x1b[8m",
+    },
+    foreground_colors: {
+        black: "\x1b[30m",
+        red: "\x1b[31m",
+        green: "\x1b[32m",
+        yellow: "\x1b[33m",
+        blue: "\x1b[34m",
+        magenta: "\x1b[35m",
+        cyan: "\x1b[36m",
+        white: "\x1b[37m",
+        
+        bright_black: "\x1b[90m",
+        bright_red: "\x1b[91m",
+        bright_green: "\x1b[92m",
+        bright_yellow: "\x1b[93m",
+        bright_blue: "\x1b[94m",
+        bright_magenta: "\x1b[95m",
+        bright_cyan: "\x1b[96m",
+        bright_white: "\x1b[97m",
+      
+        palette: Array.from({ length: 256 }, (_, i) => `\x1b[38;5;${i}m`),
+    
+        reset: "\x1b[0m",
+    },
+    background_colors: {  
+        black: "\x1b[40m",
+        red: "\x1b[41m",
+        green: "\x1b[42m",
+        yellow: "\x1b[43m",
+        blue: "\x1b[44m",
+        magenta: "\x1b[45m",
+        cyan: "\x1b[46m",
+        white: "\x1b[47m",
+        
+        bright_black: "\x1b[100m",
+        bright_red: "\x1b[101m",
+        bright_green: "\x1b[102m",
+        bright_yellow: "\x1b[103m",
+        bright_blue: "\x1b[104m",
+        bright_magenta: "\x1b[105m",
+        bright_cyan: "\x1b[106m",
+        bright_white: "\x1b[107m",
+      
+        palette: Array.from({ length: 256 }, (_, i) => `\x1b[48;5;${i}m`),
+        reset: "\x1b[0m",
+    },
+};
+var foreground_colors = colors.foreground_colors;
+var background_colors = colors.background_colors;
+var text_formatting = colors.text_formatting;
 
 const presets = {
     dividers: {
@@ -343,7 +402,7 @@ class Logger {
         console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
     }
 
-    async get_int_input(question, min = "emtpy", max = "emtpy") {
+    async get_int_input(question, min = "empty", max = "empty") {
         const question_tag = background_colors.magenta + foreground_colors.white + "QUESTION" +  text_formatting.reset + this.settings.divider + foreground_colors.magenta;
         const question_icon = (this.settings.b_display_icons ? "❓" : "");
         return new Promise((resolve) => {
@@ -352,6 +411,7 @@ class Logger {
                 output: process.stdout,
                 terminal: true
             });
+
 
             const render = () => {
                 readline.cursorTo(process.stdout, 0);
@@ -374,21 +434,46 @@ class Logger {
                 console.log('Exiting...');
                 resolve(0);
             });
-
-
             
             const ask = () => {
                 rl.question('> ', (input) => {
-                    const min_number = min !== "empty" ? parseInt(min, 10) : "empty";
-                    const max_number = max !== "empty" ? parseInt(max, 10) : "empty";
+                    var min_number = "";
+                    var max_number = "";
+                    if(min_number === ""){
+                        if(min === "empty" || min === NaN || min === undefined || min === null){
+                            min_number = "empty"; 
+                        }
+                        else {
+                            min_number = parseInt(min);
+                        }
+                    }
+                    if(max_number === ""){
+                        if(max === "empty" || max === NaN || max === undefined || max === null){    
+                            max_number = "empty";
+                        }
+                        else {
+                            max_number = parseInt(max);
+                        }
+                    }
                     input = input.trim();
                     const input_number = parseInt(input, 10);
-                    if ((min_number === "empty" || input_number >= min_number) && (max_number === "empty" || input_number <= max_number)) {
-                        console.log("input:", inputNumber);
-                        console.log("min:", minNumber);
-                        console.log("max:", maxNumber);
-                    }            
-                    if (/^-?\d+$/.test(input) && ((min_number === "empty" || input_number >= min_number) && (max_number === "empty" || input_number <= max_number))) {
+
+                    var max_is_valid = false;
+                    var min_is_valid = false;
+                    if(min === "empty" || input_number >= min_number){
+                        min_is_valid = true;
+                    }
+                    else {
+                        min_is_valid = false;
+                    }
+                    if(max === "empty" || input_number <= max_number){
+                        max_is_valid = true;
+                    }
+                    else {
+                        max_is_valid = false;
+                    }
+
+                    if (/^-?\d+$/.test(input) && min_is_valid && max_is_valid) {
                         rl.close();
                         resolve(parseInt(input, 10));
                     } else {
@@ -685,7 +770,7 @@ class Logger {
     }
 
     space(){
-        console.log();
+        console.log('\n');
     }
     
     reset_color() {
@@ -698,78 +783,9 @@ class Logger {
     }
 }
 
-// const logger_settings = {// 
-//     b_display_time: true,
-//     s_display_mode: 'icon_and_tag', // icon_only, tag_only, icon_and_tag
-//     s_time_format: 'de-DE',
-//     s_time_zone: 'Europe/Berlin',
-//     box_settings: {
-//         border_color: 'white',
-//         border_style: 'double',
-//         padding: 2,
-//         marginLeft: 1,
-//         marginTop: 2,
-//         marginBottom: 2,
-//     },
-//     loading_animation: presets.loading_animation_presets.braille_dots,
-//     progress_bar: presets.progress_bar_presets.dashed,
-//     divider: presets.dividers.dot,
-// };
-
-// function task_todo(step) {
-//     return new Promise((resolve) => {
-//         setTimeout(() => {
-//             resolve();//call resolve to indicate that the task is done
-//         }, 10);
-//     });
-// }
-
-// async function main(){
-//     const logger = new Logger(logger_settings);
-
-//     logger.box('Watupp\nThis is a box message ma nigga');
-
-
-//     logger.box('Watupp\nThis is a box message ma nigga', { border_color: 'green', border_style: 'doubleSingleRounded', padding: 1, marginLeft: 1, marginTop: 2, marginBottom: 1});
-    
-//     await logger.get_int_input("How many kids do you have?");
-
-//     await logger.get_string_input("Whats your name?");
-
-//     logger.log("This is a log message ma nigga");
-//     logger.warn("This is a warning ma nigga");
-//     logger.success("This was a success ma nigga");
-//     logger.info("This is an info ma nigga");
-//     logger.errorEx("This is an error ma nigga");
-//     logger.error(create_error("Failed to connect nigga"));
-    
-//     logger.user_activity("Create User", "Alibaba1337", "nigga", false);
-//     logger.user_activity("Delete User", "AdminSenpai69", "nigga_yjk", true);
-
-
-//     logger.user_activityEx("Create Auction", "AdminSenpai69","request", true, `AuctionID: ${foreground_colors.yellow + "78346875463785634"}`);
-
-//     logger.space();
-
-//     await logger.bool_question("are you sure?");
-
-//     logger.space();
-
-//     await logger.progress_bar(task_todo, "Updating Network adapters..");
-//     await logger.loading_circle("Updating Profile..", 5000);
-
-
-
-//     // logger.space();
-//     // logger.bool_question("are you ma nigga?");
-//     // logWithTime("Testing");
-//     // logWithTime("this is a Testing Phase");#
-//     // logWithTime("I love testing shit, lets see if the date is acutally here ->");
-// }
-// main();
-
 module.exports = {
     Logger,
     presets,
+    colors,
     create_error,   
 };
