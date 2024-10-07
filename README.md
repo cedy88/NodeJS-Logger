@@ -8,16 +8,6 @@ Welcome to this Project, its a small project ive made for my own projects in Nod
 
 ![Project Banner](https://github.com/cedy88/NodeJS-Logger/blob/main/nodejsloggerpic.png)
 
----
-
-## 🚀 Features
-
-- **Feature 1** – Describe what it does, focusing on the value it provides
-- **Feature 2** – Another cool thing about your project
-- **Feature 3** – Mention unique aspects that make your project stand out
-
----
-
 ## 📥 Installation
 
 To install dependencies, clone the repository and run:
@@ -31,9 +21,10 @@ cd projectname
 
 # Install dependencies
 npm install
+```
 
 Example:
-```nodejs
+```javascript
 const {Logger, presets, create_error, colors} = require('nodejs-logging-libary');
 
 // Define colors for the logger
