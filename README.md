@@ -1,3 +1,25 @@
+# 📃 NodeJS-Logger
+
+Welcome to this Project, its a small project ive made for my own projects in NodeJS.
+
+**a good looking Logging Libary with some cool features**
+
+![Project Banner](https://github.com/cedy88/NodeJS-Logger/blob/main/nodejsloggerpic.png)
+
+## 📥 Installation
+
+```bash
+#Installing using NPM:
+>npm i nodejs-logging-libary
+
+#Clone The Github repo:
+>git clone https://github.com/cedy88/NodeJS-Logger.git
+
+
+```
+
+Example:
+```javascript
 const {Logger, presets, create_error, colors} = require('nodejs-logging-libary');
 
 // Define colors for the logger
@@ -104,3 +126,4 @@ async function main(){
     await logger.loading_circle("Updating Profile..", 5000);
 };
 main();
+```
