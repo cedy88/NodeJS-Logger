@@ -176,7 +176,7 @@ class Logger {
                 b_display_icons: true,
                 b_display_tags: true,
                 s_time_format: 'de-DE',
-                s_time_zone: 'Europe/Berlin',//{borderColor: 'red', borderStyle: 'double', padding: 1, marginLeft: 1, marginTop: 1, marginBottom: 1}
+                s_time_zone: 'Europe/Berlin',
                 box_settings: {
                     border_color: 'white',
                     border_style: 'double',
