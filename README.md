@@ -1,4 +1,4 @@
-# 🌟 NodeJS-Logger
+# 📃 NodeJS-Logger
 
 Welcome to this Project, its a small project ive made for my own projects in NodeJS.
 
@@ -12,7 +12,7 @@ To install dependencies, clone the repository and run:
 
 ```bash
 # Installing
-npm i nodejs-logger
+npm i nodejs-logging-libary
 ```
 
 Example:
