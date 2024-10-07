@@ -3,6 +3,7 @@
 Welcome to this Project, its a small project ive made for my own projects in NodeJS.
 
 **a good looking Logging Libary with some cool features**
+
 **I may continue updating this, maybe not, idk**
 
 ![Project Banner](https://github.com/cedy88/NodeJS-Logger/blob/main/nodejsloggerpic.png)
