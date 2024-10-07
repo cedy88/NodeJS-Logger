@@ -167,7 +167,6 @@ function create_error(message) {
     };
 }
 
-
 class Logger {
     constructor(settings) {
         if(!settings){
