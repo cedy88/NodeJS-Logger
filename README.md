@@ -8,11 +8,14 @@ Welcome to this Project, its a small project ive made for my own projects in Nod
 
 ## 📥 Installation
 
-To install dependencies, clone the repository and run:
-
 ```bash
-# Installing
-npm i nodejs-logging-libary
+#Installing using NPM:
+>npm i nodejs-logging-libary
+
+#Clone The Github repo:
+>git clone https://github.com/cedy88/NodeJS-Logger.git
+
+
 ```
 
 Example:
