@@ -6,7 +6,7 @@ Welcome to this Project, its a small project ive made for my own projects in Nod
 
 **a good looking Logging Libary with some cool features**
 
-![Project Banner](https://via.placeholder.com/1200x400.png?text=Project+Banner+Here)
+![Project Banner](https://github.com/cedy88/NodeJS-Logger/blob/main/nodejsloggerpic.png)
 
 ---
 
