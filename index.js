@@ -261,14 +261,14 @@ class Logger {
         const log_message = log_icon + this.#empty_char(1) +log_tag + args;
 
         const current_time = this.#return_current_time_tag();
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
         
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     error(error_custom){  
@@ -285,14 +285,14 @@ class Logger {
          foreground_colors.red + error_custom.function_name + "()-> (" + error_custom.location + ")";
 
         const current_time = this.#return_current_time_tag();
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     errorEx(...args) {
@@ -303,15 +303,15 @@ class Logger {
         const log_message = log_icon + this.#empty_char(1) + log_tag + args;
         
         const current_time = this.#return_current_time_tag();;
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
 
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     box(text, overwrite_settings = this.settings.box_settings) {//Box is not displaying time when text length is greater than 21
@@ -383,7 +383,6 @@ class Logger {
         console.log(box_lines.join("\n"));
     }     
     
-
     success(...args) {
         const success_tag =  background_colors.green + foreground_colors.white +  "SUCCESS" +  text_formatting.reset + this.settings.divider + foreground_colors.green;
         const log_icon = (this.settings.b_display_icons ? "✅" : "");
@@ -392,14 +391,14 @@ class Logger {
         const log_message = log_icon + this.#empty_char(1) + log_tag + args;
 
         const current_time = this.#return_current_time_tag();;
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     async get_int_input(question, min = "empty", max = "empty") {
@@ -412,28 +411,22 @@ class Logger {
                 terminal: true
             });
 
-
             const render = () => {
                 readline.cursorTo(process.stdout, 0);
                 
                 const log_message = question_icon + this.#empty_char(1) + (this.settings.b_display_tags ? question_tag : foreground_colors.magenta) + question;
 
                 const current_time = this.#return_current_time_tag();;
-                const maxWidth = process.stdout.columns || 80; 
-                const msgLength = stripAnsi(log_message).length;
-                const padding = maxWidth - msgLength - current_time.length - 1;
-                const paddedMessage = msgLength + current_time.length >= maxWidth
-                  ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+                const max_Width = process.stdout.columns || 80; 
+                const msg_length = stripAnsi(log_message).length;
+                const padding = max_Width - msg_length - current_time.length - 1;
+                const padded_message = msg_length + current_time.length >= max_Width
+                  ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
                   : log_message + ' '.repeat(padding > 0 ? padding : 0);
         
-                console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+                console.log(padded_message, this.settings.b_display_time ? current_time : "");
             };
             render();
-
-            process.stdin.on('SIGINT', () => {
-                console.log('Exiting...');
-                resolve(0);
-            });
             
             const ask = () => {
                 rl.question('> ', (input) => {
@@ -478,7 +471,7 @@ class Logger {
                         resolve(parseInt(input, 10));
                     } else {
                         this.errorEx("Please enter a valid integer.");
-                        ask(); // Ask again if input is invalid
+                        ask();
                     }
                 });
             };
@@ -502,14 +495,14 @@ class Logger {
                 const log_message = question_icon + this.#empty_char(1) + (this.settings.b_display_tags ?  question_tag : foreground_colors.magenta) + question;
 
                 const current_time = this.#return_current_time_tag();;
-                const maxWidth = process.stdout.columns || 80; 
-                const msgLength = stripAnsi(log_message).length;
-                const padding = maxWidth - msgLength - current_time.length - 1;
-                const paddedMessage = msgLength + current_time.length >= maxWidth
-                  ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+                const max_Width = process.stdout.columns || 80; 
+                const msg_length = stripAnsi(log_message).length;
+                const padding = max_Width - msg_length - current_time.length - 1;
+                const padded_message = msg_length + current_time.length >= max_Width
+                  ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
                   : log_message + ' '.repeat(padding > 0 ? padding : 0);
         
-                console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+                console.log(padded_message, this.settings.b_display_time ? current_time : "");
             };
             render();
 
@@ -573,23 +566,15 @@ class Logger {
 
             render();
 
-
-            // process.stdin.on('SIGINT', () => {
-            //     console.log('Exiting...');
-            //     resolve(false);
-            // });
-
             keypress(process.stdin);
             process.stdout.write("> ");
             process.stdin.on('keypress', (ch, key) => {
                 if (key && (key.name === 'y' || key.name === 'Y')) {
-                    // render('Y');
                     render_answer("Yes");
                     process.stdin.resume();
                     rl.close();
                     resolve(true);
                 } else if (key && (key.name === 'n' || key.name === 'N')) {
-                    // render('N');
                     render_answer("No");
                     process.stdin.resume();
                     rl.close();
@@ -609,22 +594,22 @@ class Logger {
     }
 
     async loading_circle(message, delay) {
-        const spinnerFrames = this.settings.loading_animation;
-        let currentFrame = 0;
+        const spinner_frames = this.settings.loading_animation;
+        let current_frame = 0;
     
         const spinner_tag = background_colors.bright_cyan + foreground_colors.white + "LOADING" + text_formatting.reset + this.settings.divider + foreground_colors.bright_cyan;
         const spinner_icon = (this.settings.b_display_icons ? "⏳" : "");
         
         const spinner_message = spinner_icon + this.#empty_char(1) + spinner_tag + message;
     
-        const spinnerInterval = setInterval(() => {
-            process.stdout.write(`\r${spinner_message} ${foreground_colors.white + spinnerFrames[currentFrame]}`);
-            currentFrame = (currentFrame + 1) % spinnerFrames.length;
+        const spinner_interval = setInterval(() => {
+            process.stdout.write(`\r${spinner_message} ${foreground_colors.white + spinner_frames[current_frame]}`);
+            current_frame = (current_frame + 1) % spinner_frames.length;
         }, 100);
     
         return new Promise((resolve) => {
             setTimeout(() => {
-                clearInterval(spinnerInterval);
+                clearInterval(spinner_interval);
                 process.stdout.write(`\r${spinner_message} ${foreground_colors.green}✔${text_formatting.reset}\n`);
                 resolve();
             }, delay);
@@ -678,15 +663,15 @@ class Logger {
         const log_message = log_icon + this.#empty_char(1) + log_tag + args;
 
         const current_time = this.#return_current_time_tag();;
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
 
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     info(...args) {
@@ -697,14 +682,14 @@ class Logger {
         const log_message = log_icon + this.#empty_char(1) + log_tag + args;
 
         const current_time = this.#return_current_time_tag();;
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     user_activity(action, username, req, is_admin_activity) {
@@ -728,14 +713,14 @@ class Logger {
         const log_message = icon + this.#empty_char(1) + (this.settings.b_display_tags ? activity_tag + this.settings.divider : "") + (is_admin_activity ? adminaction_done : action_done) + this.#empty_char(1) + user_name + this.#empty_char(1) + ip + text_formatting.reset;
 
         const current_time = this.#return_current_time_tag();;
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     user_activityEx(action, username, req, is_admin_activity, ...args) {
@@ -759,14 +744,14 @@ class Logger {
         const log_message = icon + this.#empty_char(1) + (this.settings.b_display_tags ? activity_tag + this.settings.divider : "") + (is_admin_activity ? adminaction_done : action_done) + this.#empty_char(1) + user_name + text_formatting.reset + " " + args + text_formatting.reset +this.#empty_char(1) + ip ;
 
         const current_time = this.#return_current_time_tag();;
-        const maxWidth = process.stdout.columns || 80; 
-        const msgLength = stripAnsi(log_message).length;
-        const padding = maxWidth - msgLength - current_time.length - 1;
-        const paddedMessage = msgLength + current_time.length >= maxWidth
-          ? log_message.substring(0, maxWidth - current_time.length - 4) + '...'
+        const max_Width = process.stdout.columns || 80; 
+        const msg_length = stripAnsi(log_message).length;
+        const padding = max_Width - msg_length - current_time.length - 1;
+        const padded_message = msg_length + current_time.length >= max_Width
+          ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(paddedMessage, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "");
     }
 
     space(){
