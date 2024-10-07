@@ -2,7 +2,7 @@
 
 Welcome to this Project, its a small project ive made for my own projects in NodeJS.
 
-**a good looking Logging Libary with some cool features**
+**a good looking Logging Libary with some cool features & animations**
 
 **I may continue updating this, maybe not, idk**
 
