@@ -13,14 +13,8 @@ Welcome to this Project, its a small project ive made for my own projects in Nod
 To install dependencies, clone the repository and run:
 
 ```bash
-# Clone the repo
-git clone https://github.com/yourusername/projectname.git
-
-# Navigate into the project directory
-cd projectname
-
-# Install dependencies
-npm install
+# Installing
+npm i nodejs-logger
 ```
 
 Example:
