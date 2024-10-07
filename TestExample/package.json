@@ -1,15 +1,14 @@
 {
-  "name": "nodejs-logging-libary",
+  "name": "testexample",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Cedy",
+  "author": "",
   "license": "ISC",
-  "description": "https://github.com/cedy88/NodeJS-Logger",
+  "description": "",
   "dependencies": {
-    "keypress": "^0.2.1",
-    "tty": "^1.0.1"
+    "nodejs-logging-libary": "^1.0.0"
   }
 }
