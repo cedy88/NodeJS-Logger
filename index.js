@@ -171,7 +171,7 @@ class Logger {
     constructor(settings) {
         if(!settings){
             this.settings = {
-                b_display_time: true,
+                b_display_time: false,
                 b_display_icons: true,
                 b_display_tags: true,
                 s_time_format: 'de-DE',
@@ -267,7 +267,7 @@ class Logger {
           ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
         
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "", text_formatting.reset);
     }
 
     error(error_custom){  
@@ -291,7 +291,7 @@ class Logger {
           ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "", text_formatting.reset);
     }
 
     errorEx(...args) {
@@ -310,7 +310,7 @@ class Logger {
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
 
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "", text_formatting.reset);
     }
 
     box(text, overwrite_settings = this.settings.box_settings) {//Box is not displaying time when text length is greater than 21
@@ -397,7 +397,7 @@ class Logger {
           ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "" , text_formatting.reset);
     }
 
     async get_int_input(question, min = "empty", max = "empty") {
@@ -670,7 +670,7 @@ class Logger {
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
 
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "", text_formatting.reset);
     }
 
     info(...args) {
@@ -688,7 +688,7 @@ class Logger {
           ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "", text_formatting.reset);
     }
 
     user_activity(action, username, req, is_admin_activity) {
@@ -719,7 +719,7 @@ class Logger {
           ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "", text_formatting.reset);
     }
 
     user_activityEx(action, username, req, is_admin_activity, ...args) {
@@ -750,7 +750,7 @@ class Logger {
           ? log_message.substring(0, max_Width - current_time.length - 4) + '...'
           : log_message + ' '.repeat(padding > 0 ? padding : 0);
 
-        console.log(padded_message, this.settings.b_display_time ? current_time : "");
+        console.log(padded_message, this.settings.b_display_time ? current_time : "", text_formatting.reset);
     }
 
     space(){
