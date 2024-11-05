@@ -485,7 +485,7 @@ class Logger {
             const rl = readline.createInterface({
                 input: process.stdin,
                 output: process.stdout,
-                terminal: true
+                terminal: false
             });
 
             const render = () => {
@@ -507,9 +507,8 @@ class Logger {
 
             const ask = () => {
                 rl.question('> ', (input) => {
-                    input = input.trim();
                     rl.close();
-                    resolve(parseInt(input, 10));
+                    resolve(input.trim());
                 });
             };
             ask();
